@@ -1,4 +1,3 @@
-import { Typography } from '@material-ui/core';
 import React, { useState } from 'react';
 import DadosEntrega from './DadosEntrega';
 import DadosPessoais from './DadosPessoais';
@@ -12,27 +11,18 @@ const FormularioCadastro = ({ aoEnviar, validaCPF }) => {
         setEtapaAtual(etapaAtual + 1);
     }
 
-    const formularioAtual = (etapa) => {
-        switch(etapa) {
-            case 0:
-                return <DadosUsuario aoEnviar={proximo} />;
-            case 1:
-                return <DadosPessoais aoEnviar={proximo} validaCPF={validaCPF} />;
-            case 2:
-                return <DadosEntrega aoEnviar={aoEnviar} />;
-            default:
-                return <Typography>Erro ao selecionar formulário</Typography>;
-        }
-    }
+    const formularios = [
+        <DadosUsuario aoEnviar={proximo} />,
+        <DadosPessoais aoEnviar={proximo} validaCPF={validaCPF} />,
+        <DadosEntrega aoEnviar={aoEnviar} />
+    ]
 
     return (
         <>
-        {formularioAtual(etapaAtual)}
+        {formularios[etapaAtual]}
         </>
     )
 
 }
-
-
 
 export default FormularioCadastro;
