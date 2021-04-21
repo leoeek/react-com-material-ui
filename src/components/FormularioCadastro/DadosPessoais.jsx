@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Button, TextField, Switch, FormControlLabel } from '@material-ui/core';
 
-const DadosPessoais = ({ aoEnviar, validaCPF }) => {
+const DadosPessoais = ({ aoEnviar, validacoes }) => {
 
     const [nome, setNome] = useState('');
     const [sobrenome, setSobrenome] = useState('')
@@ -12,8 +12,19 @@ const DadosPessoais = ({ aoEnviar, validaCPF }) => {
         cpf: {
             valido: true, 
             texto: ''
+        },
+        nome: {
+            valido: true, 
+            texto: ''
         }
     })
+
+    const validarCampos = (event) => {
+        const { name, value } = event.target
+        const novoEstado = { ...erros }
+        novoEstado[name] =  validacoes[name](value)
+        setErros(novoEstado)
+    }
 
     return (
         <form
@@ -25,13 +36,13 @@ const DadosPessoais = ({ aoEnviar, validaCPF }) => {
             <TextField 
                 value={nome}
                 onChange={(event) => {
-                    let tmpNome = event.target.value;
-                    if (tmpNome.length >= 3) {
-                        tmpNome = tmpNome.substr(0, 3);
-                    }                    
-                    setNome(tmpNome)
+                    setNome(event.target.value)
                 }}
+                onBlur={validarCampos}
+                error={!erros.nome.valido}
+                helperText={erros.nome.texto}
                 id="nome" 
+                name="nome"
                 label="Nome" 
                 margin="normal" 
                 variante="outlined" 
@@ -50,11 +61,10 @@ const DadosPessoais = ({ aoEnviar, validaCPF }) => {
                 }}
                 error={!erros.cpf.valido}
                 helperText={erros.cpf.texto}
-                onBlur={(event) => {
-                    const ehValido = validaCPF(cpf)
-                    setErros({ cpf: ehValido })
-                }}
-            id="CPF" label="cpf" margin="normal" variante="outlined" fullWidth />
+                onBlur={validarCampos}
+                id="CPF"
+                name="cpf" 
+                label="cpf" margin="normal" variante="outlined" fullWidth />
 
             <FormControlLabel
             
@@ -79,7 +89,7 @@ const DadosPessoais = ({ aoEnviar, validaCPF }) => {
                 type="submit"
                 variant="contained"
                 color="primary"
-            >Cadastrar</Button>
+            >Próximo</Button>
 
             
         </form>
