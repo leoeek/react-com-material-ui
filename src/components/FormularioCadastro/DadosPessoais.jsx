@@ -1,30 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Button, TextField, Switch, FormControlLabel } from '@material-ui/core';
+import ValidacoesCadastro from '../../contexts/ValidacoesCadastro';
+import useErros from '../../hooks/useErros';
 
-const DadosPessoais = ({ aoEnviar, validacoes }) => {
+const DadosPessoais = ({ aoEnviar }) => {
 
+    const validacoes = useContext(ValidacoesCadastro)
     const [nome, setNome] = useState('');
     const [sobrenome, setSobrenome] = useState('')
     const [cpf, setCpf] = useState('')
     const [promocoes, setPromocoes] = useState(true)
     const [novidades, setNovidades] = useState(false)
-    const [erros, setErros] = useState({
-        cpf: {
-            valido: true, 
-            texto: ''
-        },
-        nome: {
-            valido: true, 
-            texto: ''
-        }
-    })
 
-    const validarCampos = (event) => {
-        const { name, value } = event.target
-        const novoEstado = { ...erros }
-        novoEstado[name] =  validacoes[name](value)
-        setErros(novoEstado)
-    }
+    const [erros, validarCampos] = useErros(validacoes)
 
     return (
         <form

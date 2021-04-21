@@ -3,14 +3,18 @@ import './App.css';
 import FormularioCadastro from './components/FormularioCadastro/FormularioCadastro';
 
 import { Container, Typography } from '@material-ui/core';
-import { validaCPF, validaSenha } from './models/cadastro'
+import { validaCPF, validaSenha } from './models/cadastro';
 
+import ValidacoesCadastro from './contexts/ValidacoesCadastro';
 class App extends Component {
   render() {
     return (
       <Container component="article" maxWidth="sm">
         <Typography variant="h3" component="h1" align="center">Formulário de cadastro</Typography>
-        <FormularioCadastro aoEnviar={aoEnviarForm} validacoes={{ cpf: validaCPF, senha: validaSenha, nome: validaSenha }} />
+        
+        <ValidacoesCadastro.Provider value={{ cpf: validaCPF, senha: validaSenha, nome: validaSenha }}>
+          <FormularioCadastro aoEnviar={aoEnviarForm} />
+        </ValidacoesCadastro.Provider>
       </Container>
     );
   }
