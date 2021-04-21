@@ -11,7 +11,16 @@ const useErros = (validacoes) => {
         setErros(novoEstado)
     }
 
-    return [erros, validarCampos]
+    const possoEnviar = () => {
+        for (let campo in erros) {
+             if (!erros[campo].valido) {
+                 return false
+             }
+        }
+        return true;
+    }
+
+    return [erros, validarCampos, possoEnviar]
 }
 
 const criarEstadoInicial = (validacoes) => {

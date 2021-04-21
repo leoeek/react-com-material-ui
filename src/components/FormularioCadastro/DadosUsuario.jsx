@@ -9,16 +9,7 @@ const DadosUsuario = ({ aoEnviar }) => {
     const [email, setEmail] = useState('')
     const [senha, setSenha] = useState('')
 
-    const [erros, validarCampos] = useErros(validacoes)
-
-    const possoEnviar = () => {
-        for (let campo in erros) {
-             if (!erros[campo].valido) {
-                 return false
-             }
-        }
-        return true;
-    }
+    const [erros, validarCampos, possoEnviar] = useErros(validacoes)
 
     return (
         <form
